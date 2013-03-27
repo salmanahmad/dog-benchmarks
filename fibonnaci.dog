@@ -1,0 +1,20 @@
+
+
+include dog 
+
+define fibonnaci: x_1 to: x_2 do
+	
+repeat 20 do
+	print: x_1
+	x_1 = x_1 + x_2
+	x_2=x_1-x_2
+
+end
+
+end
+
+i = fibonnaci: 0 to: 1
+
+
+
+

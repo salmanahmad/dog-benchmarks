@@ -1,0 +1,33 @@
+include dog
+
+define isPrime: num do
+	h = "Prime Number"
+	if num%2==0 then
+		h = "Not Prime"
+	end
+
+	if num%3==0 then
+		h = "Not Prime"
+	end
+	
+	a = 5
+	b = 2
+
+	while a*a <= num do
+		if num%a == 0 then
+			h = "Not Prime"
+		end
+
+		a = a + 5
+		b = 6 - b
+	end
+
+	print: h		
+end
+
+a = isPrime: 3571
+
+#Dog, Python, and Ruby
+# to install ruby:
+# search for rvm - install both 1.8 and 1.9
+# {do binary-tree, mandelbrot, n-body, longest substring}

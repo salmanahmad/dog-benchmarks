@@ -1,0 +1,16 @@
+
+include dog
+
+define max: i do
+	max1 = i[0]
+	for each key in i do
+		if i[key]>= max1 then
+			max1 = i[key]
+			
+		end 
+
+	end
+	print: "The max is: " + max1
+end
+
+j = max: [4,236,126124,643,31516,54]
