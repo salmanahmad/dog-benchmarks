@@ -1,0 +1,38 @@
+
+
+include dog
+
+define LongestCommonSubstring: s1 with: s2 do
+	a = length: s1
+	b = length: s2
+	M = []
+	repeat a do
+		for each i in s1 do
+			M = [0]*(b+1)
+		end
+	end
+	longest = 0
+	x_longest = 0
+	x = 1
+	y = 1
+	repeat a do # this set of loops was implemented the following way in python: for x in range(1,len(s1)+1)
+		repeat b do # for y in range (1,len(s2)+1) 
+			for each x in s1 do
+				for each y in s2 do
+					if s1[x-1] == s2[y-1] then
+						M[x][y] = M[x-1][y-1] + 1
+						if M[x][y]> longest then
+							longest = M[x][y]
+							x_longest = x
+						end
+					end
+					else 
+						M[x][y] = 0
+					end
+				end
+			end
+		end
+	end
+	print s1[x_longest - longest: x_longest]			
+
+
