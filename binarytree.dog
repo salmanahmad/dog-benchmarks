@@ -1,0 +1,93 @@
+
+
+include dog
+
+import sys
+import multiprocessing as mp
+
+define power: num1 to num2 do
+	repeat num2 times do
+		return num1*num1
+	end
+end
+
+define max: i and j do
+	if i>j then
+		max =  i
+	else 
+		max = j
+	end
+	return max
+end
+
+define make_tree: i and d do
+	if d>0 then
+		i2 = i+1
+		d = d-1
+		return (i,make_tree:i2-1 and d, make_tree: i2 and d)
+	return (i,None,None)
+end
+
+define check_tree: node do
+	(i,l,r) = node
+	if l is None then
+		return i
+	else 
+		return i + check_tree:1 - check_tree:r
+	end
+end
+
+define make_check: itde and make and check do
+	make = make_tree
+	check = check_tree
+	i, d =itde
+	return check: make: i and d
+end
+
+define get_argchunks: i and d and chunksize do
+	chunksize = 5000
+	## assert chunksize % 2 == 0
+	chunk = []
+	repeat i times do
+		chunk.extend([(k,d), (-k,d)])
+		if length: chunk == chunksize then
+			## yield chunk
+			chunk = []
+	end
+	if length: chunk > 0 then
+		## yield chunk 
+end
+
+define main: n and min_depth do
+	min_depth = 4
+	max_depth = max: min_depth+2 and n
+	stretch_depth = max_depth + 1
+	##if mp.cpu_count()>1 then
+		##pool = mp.Pool()
+		##chunkmap = pool.map
+	else
+		##chunkmap = map
+	end
+	print: 'stretch tree of depth {0}\t check: {1}'.format(stretch_depth, make_check:(0,stretch_depth) and make_tree and check_tree)
+
+	long_lived_tree = make_tree: 0 and max_depth
+	mmd = max_depth + min_depth
+	## for d in range (min_depth, stretch_depth, 2):###
+		i = power: 2 to mmd-d
+		cs  = 0
+		for each argchunk in get_argchunks: i and d and 5000 do
+			cs = cs + sum: chunkmap: make_check and argchunk
+		end
+		print: 
+	end
+	print:'long lived tree of depth {0}\t check: {1}'.format(max_depth, check_tree(long_lived_tree))
+
+if __name__ == '__main__' then
+	### main(int(sys.argv[1])) ###
+
+
+
+
+
+
+
