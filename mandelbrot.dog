@@ -1,0 +1,119 @@
+
+
+include dog
+
+###import multiprocessing as mp
+###import sys
+
+define delete: num do
+end
+
+define float: num do
+	a = num + 0.0
+	return a 
+end
+
+define writer: buff_queue and size do
+	## from array import array ##
+	buff_pos = 0
+	buff  = []
+	##### cout = sys.stdout.buffer.write
+	while 1 do
+		## try do
+			####buff = buff + buff.queue.get_nowait:
+		## except do
+			if length:buff then
+				sort: buff
+				pos = length: buff -1
+				while pos>0 do
+					if buff[pos][0] == buff[pos-1][1] then
+						buff[pos-1] = (buff[pos-1][0],buff[pos][1],buff[pos-1][2]+buff[pos][2])
+						delete: buff[pos]
+					pos  = pos - 1
+				end
+				if buff[0][0] == buff_pos then
+					#### cout(array('B',buff[0][2]).tostring()) ###
+					buff_pos = buff[0][1]
+					delete: buff[0]
+			if buff_pos >= size then
+				break
+define worker: size and task_queue and buff_queue do
+	cout = sys.stdout.buffer.write
+	fsize = float: size
+	r_size = range: size
+	r_iter = range: 50
+	local_abs = abs
+	result = []
+	y = size
+	while 1 do 
+		###task = task_queue.get()###
+		if task is None then
+			if length: result then
+				###buff_queue.put((task_head,y+1,result))###
+			break
+		else if task-y-1 
+			if length: result then
+				###buff_queue.put((task_head,y+1,result))###
+			task_head = task
+			result = []
+		end
+		y = task
+		bit_num = 7
+		byte_acc = 0
+		fy = 2j*y/fsize-1j
+		for each x in r_size do
+			z = 0j
+			c = 2.*x/fsize-1.5+fy
+
+			for each value y in r_iter do
+				z = z*z+c
+				if local_abs: z > = 2. then
+					break
+			end
+			else
+				byte_acc = byte_acc+1 << bit_num
+			end
+
+			if bit_num==0 then
+				result = result + [byte_acc]
+				bit_num = 7
+				byte_acc = 0
+			else
+				bit_num = bit_num - 1
+			end
+		end
+		if bit_num != 7 then
+			result = result+[byte_acc]
+	end
+end
+
+
+#### I DID NOT CHANGE THIS PART FROM THE PYTHON IMPLEMENTATION. I WAS NOT SURE COMPLETELY SO I DID NOT DO SOMETHING COMPLETELY WRONG ####
+define main do
+	size = int(sys.argv[1])
+	task_queue = mp.Queue()
+    for i in range(size):
+        task_queue.put(i)
+    buff_queue = mp.Queue()
+    num_proc = 64 
+    proc = []
+    for i in range(num_proc):
+        task_queue.put(None)
+
+    worker_args = (size, task_queue, buff_queue)
+
+    for a in range(num_proc):
+        p = mp.Process(target=worker, args=worker_args)
+        p.start()
+        proc.append(p)
+    sys.stdout.write("P4\n%d %d\n" % (size, size))
+    w = mp.Process(target=writer, args=(buff_queue,size))
+    w.start()
+    proc.append(w)
+
+    for p in proc:
+        p.join()
+
+if __name__=='__main__':
+    main()
+
